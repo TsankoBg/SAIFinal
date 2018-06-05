@@ -1,0 +1,65 @@
+<component name="libraryTable">
+  <library name="jersey-media-sse">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-media-sse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.inject-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.annotation-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxws-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jsr250-api-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxb-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/genson-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-container-servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxws-tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/management-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/gmbal-api-only.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/el-api-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxb-xjc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/hk2-utils-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.json-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.ws.rs-api-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxws-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jboss-interceptors-api_1.1_spec-1.0.0.Beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javassist-3.22.0-CR2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-media-jaxb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.json.bind-api-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-media-json-binding.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/ha-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/FastInoset.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.annotation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-container-servlet-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-common.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-server.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/aopalliance-repackaged-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxb-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jsr181-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/hk2-api-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jaxb-api-2.2.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/hk2-locator-2.5.0-b42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/cdi-api-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/jersey-hk2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.json-api-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/javax.servlet-api-3.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/mimepull.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/osgi-resource-locator-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/persistence-api-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/policy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/saaj-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/saaj-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/stax2-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/streambuffer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/stax-ex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/woodstox-core-asl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/yasson-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/broker/lib/org.osgi.core-4.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/broker/lib/org.osgi.core-4.2.0.jar!/OSGI-OPT/src" />
+      <root url="file://$PROJECT_DIR$/broker/src" />
+    </SOURCES>
+  </library>
+</component>
