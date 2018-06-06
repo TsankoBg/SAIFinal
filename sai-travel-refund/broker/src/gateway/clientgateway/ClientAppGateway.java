@@ -21,9 +21,9 @@ public class ClientAppGateway {
         costCalculator = new CostCalculator();
     }
 
-    public void sendTravelFundReply(TravelRefundReply travelRefundReply) {
+    public void sendTravelFundReply(TravelRefundReply travelRefundReply, String corelation) {
         String request = seriealizer.replyToString(travelRefundReply);
-        sender.sendMessage(request);
+        sender.sendMessage(request,corelation);
     }
 
     public void onLoanReplyArrived() {

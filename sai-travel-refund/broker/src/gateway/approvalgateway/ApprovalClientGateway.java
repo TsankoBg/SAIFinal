@@ -20,10 +20,10 @@ public class ApprovalClientGateway {
         receiver = new Receiver("adminToBroker");
     }
 
-    public void sendApprovalRequest(ApprovalRequest approvalRequest) {
+    public void sendApprovalRequest(ApprovalRequest approvalRequest,String corelation) {
 
         String request = seriealizer.requestToString(approvalRequest);
-        sender.sendMessage(request);
+        sender.sendMessage(request,corelation);
     }
 
     public void onLoanReplyArrived() {

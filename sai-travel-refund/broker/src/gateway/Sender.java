@@ -40,10 +40,11 @@ public class Sender {
 
 
 
-    public void sendMessage(String body) {
+    public void sendMessage(String body,String correlationID) {
         try {
             TextMessage message = session.createTextMessage();
             message.setText(body);
+            message.setJMSCorrelationID(correlationID);
             producer.send(destination, message);
         } catch (JMSException e) {
             e.printStackTrace();
