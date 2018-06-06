@@ -1,10 +1,5 @@
 package gateway.Enricher;
 
-
-
-
-import com.owlike.genson.Genson;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.glassfish.jersey.client.ClientConfig;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,17 +32,20 @@ public class GoogleMatrixData {
        client = ClientBuilder.newClient(config);
 
    }
-   public  double getDistance(String origin, String destination) throws JSONException {
+   public  double getDistance(String origin, String destination)  {
        baseURI = UriBuilder.fromUri("https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins="+ origin + "&destinations="+ destination+ "&language=en-FR&key=AIzaSyCy0S3UrSFvcCzXzJyyBOVCxWF1RiIX5MQ").build();
        WebTarget serviceTarget = client.target(baseURI);
        WebTarget operationTarger = serviceTarget;
        Invocation.Builder requestBuilder = operationTarger.request().accept(MediaType.TEXT_PLAIN);
        Response response = requestBuilder.get();
        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-
+           try {
            String json="";
            json=response.readEntity(String.class);
-           JSONObject jsonobj= new JSONObject(json);
+           JSONObject jsonobj= null;
+
+               jsonobj = new JSONObject(json);
+
            JSONArray dist=(JSONArray)jsonobj.get("rows");
            JSONObject obj2 = (JSONObject)dist.get(0);
            JSONArray disting=(JSONArray)obj2.get("elements");
@@ -61,6 +59,10 @@ public class GoogleMatrixData {
          //  ASCII_DIGITS.retainFrom("123-456-789");
            double distance=Double.parseDouble(distanceString);
            return distance ;
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
+         return -1;
 
        } else {
            System.err.println(" Error from GoogleMatrix Response");

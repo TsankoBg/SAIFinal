@@ -13,7 +13,10 @@ class ClientListLine {
         this.request = request;
         this.reply = reply;
     }
-
+    public ClientListLine(TravelRefundRequest request) {
+        this.request = request;
+       // this.reply = reply;
+    }
     public TravelRefundRequest getRequest() {
         return request;
     }

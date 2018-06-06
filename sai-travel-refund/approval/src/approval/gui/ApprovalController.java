@@ -39,11 +39,13 @@ public class ApprovalController implements Initializable {
         ToggleGroup radioButtonsGroup = new ToggleGroup();
         rbApprove.setToggleGroup(radioButtonsGroup);
         rbReject.setToggleGroup(radioButtonsGroup);
+
         btnSendReply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 sendApprovalReply();
             }
         });
+
     }
 }

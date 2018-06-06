@@ -2,9 +2,11 @@ package gui;
 
 import gateway.Enricher.GoogleMatrixData;
 import gateway.Enricher.PricePerKM;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.Initializable;
-import org.json.JSONException;
+import javafx.fxml.Initializable;
+
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class BrokerController implements Initializable {
 
@@ -22,21 +24,15 @@ public class BrokerController implements Initializable {
         pricePerKM=new PricePerKM();
      //   Platform.runLater(() -> {
 
-        try {
+
             googleMatrixData.getDistance("Eindhoven", "Amsterdam");
             System.out.println(pricePerKM.getPricePerKM() * googleMatrixData.getDistance("Eindhoven", "Sofia"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         //   });
-    }
-    @Override
-    public Initializable preInitialize() {
-        return null;
     }
 
     @Override
-    public ClientConfig getConfiguration() {
-        return null;
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

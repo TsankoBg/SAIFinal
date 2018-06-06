@@ -1,5 +1,6 @@
 package client.gui;
 
+import client.gateway.BrokerAppGateway;
 import client.model.Address;
 import client.model.ClientTravelMode;
 import client.model.TravelRefundReply;
@@ -7,10 +8,7 @@ import client.model.TravelRefundRequest;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +22,26 @@ public class ClientController implements Initializable {
     private Label lbCosts;
     @FXML
     private ListView<ClientListLine> lvRequestReply;
+    @FXML
+    private TextField tfOriginStreet;
+    @FXML
+    private TextField tfOriginNumber;
+    @FXML
+    private TextField tfOriginCity;
+    @FXML
+    private TextField tfTeacher;
+    @FXML
+    private TextField tfDestinationStreet;
+    @FXML
+    private TextField tfDestinationNumber;
+    @FXML
+    private TextField tfDestinationCity;
+    @FXML
+    private TextField tfStudent;
+    @FXML
+    private Button btnSend;
 
+    BrokerAppGateway brokerAppGateway;
 
 
     @Override
@@ -35,6 +52,7 @@ public class ClientController implements Initializable {
         );
         cbTravelMode.getSelectionModel().select(0);
         jcbModeItemStateChanged();
+        brokerAppGateway=new BrokerAppGateway();
     }
 
     private ClientListLine getRequestReply(TravelRefundRequest request) {
@@ -50,7 +68,8 @@ public class ClientController implements Initializable {
     }
     @FXML
     private void jbSendActionPerformed() {
-            // TO DO create and send the TravelRefundRequest
+        requestMessage();
+        System.out.println("raboti");
     }
 
     @FXML
@@ -69,5 +88,36 @@ public class ClientController implements Initializable {
             lbCosts.setVisible(false);
         }
         tfCosts.setText(Integer.toString(costs));
+    }
+
+    public void requestMessage()
+    {
+       String  orgStreet=tfOriginStreet.getText();
+       String desStreet=tfDestinationStreet.getText();
+
+       String orgCity=tfOriginCity.getText();
+       String destCity=tfDestinationCity.getText();
+
+       int orgNumber= Integer.parseInt(tfOriginNumber.getText());
+        int destNumber= Integer.parseInt(tfDestinationNumber.getText());
+
+        String teacher=tfTeacher.getText();
+        String student=tfStudent.getText();
+
+        double travelCost=0;
+        if(cbTravelMode.getSelectionModel().getSelectedIndex()==1)
+        {
+            travelCost=Double.parseDouble(tfCosts.getText());
+        }
+        Address orgAddress=new Address(orgStreet,orgNumber,orgCity);
+        Address destAddress=new Address(desStreet,destNumber,destCity);
+        TravelRefundRequest travelRefundRequest=new TravelRefundRequest(teacher,student,orgAddress, destAddress,travelCost);
+        System.out.println(travelRefundRequest.getCosts());
+        System.out.println(travelRefundRequest.getStudent());
+        System.out.println(travelRefundRequest.getMode());
+        brokerAppGateway.applyForRefund(travelRefundRequest);
+        ClientListLine clientListLine=new ClientListLine(travelRefundRequest);
+        lvRequestReply.getItems().add(clientListLine);
+
     }
 }

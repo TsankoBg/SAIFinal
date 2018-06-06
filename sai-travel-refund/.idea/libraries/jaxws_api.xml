@@ -1,0 +1,31 @@
+<component name="libraryTable">
+  <library name="jaxws-api">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxws-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxb-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/javax.annotation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxb-xjc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/genson-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/ha-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/gmbal-api-only.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxb-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/FastInoset.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/activemq-all-5.15.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxws-tools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jaxws-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/management-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/mimepull.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/saaj-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/stax2-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/stax-ex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/woodstox-core-asl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/streambuffer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/policy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/saaj-impl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/client/lib/jsr181-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

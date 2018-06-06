@@ -34,7 +34,6 @@ public class ApprovalMainFinancial extends Application {
 
         Parent root = loader.load();
         primaryStage.setTitle("Travel Approval - " + this.APPLICATION_NAME);
-
         primaryStage.setOnCloseRequest((EventHandler) t -> {
             Platform.exit();
             System.exit(0);
