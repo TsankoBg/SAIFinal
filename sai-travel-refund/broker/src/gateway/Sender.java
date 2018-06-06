@@ -1,5 +1,7 @@
 package gateway;
 
+import org.apache.activemq.command.ActiveMQQueue;
+
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -11,7 +13,7 @@ public class Sender {
     Session session;
     Destination destination;
     MessageProducer producer;
-
+    Queue queue;
     public Sender(String channelName) {
 
         try {
@@ -25,9 +27,10 @@ public class Sender {
                     .lookup("ConnectionFactory");
             javax.jms.Connection connection = connectionFactory.createConnection();
 
+            queue =new ActiveMQQueue(channelName);
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             destination = (Destination) jndiContextC1.lookup(channelName);
-            producer = session.createProducer(destination);
+            producer = session.createProducer(null);
             connection.start();
 
 
@@ -37,6 +40,11 @@ public class Sender {
             e.printStackTrace();
         }
     }
+    public void setQueue(String queues)
+    {
+        queue =new ActiveMQQueue(queues);
+
+    }
 
 
 
@@ -45,7 +53,7 @@ public class Sender {
             TextMessage message = session.createTextMessage();
             message.setText(body);
             message.setJMSCorrelationID(correlationID);
-            producer.send(destination, message);
+            producer.send(queue, message);
         } catch (JMSException e) {
             e.printStackTrace();
         }

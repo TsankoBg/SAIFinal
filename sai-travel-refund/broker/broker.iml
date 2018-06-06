@@ -29,5 +29,6 @@
     <orderEntry type="library" exported="" name="java-json" level="project" />
     <orderEntry type="library" name="activemq-all-5.15.3" level="project" />
     <orderEntry type="library" name="json-simple-1.1" level="project" />
+    <orderEntry type="library" name="jeval" level="project" />
   </component>
 </module>

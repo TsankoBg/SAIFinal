@@ -7,6 +7,7 @@ import gateway.Serializers.TravelRefundSerializer;
 import model.ClientTravelMode;
 import model.TravelRefundReply;
 import model.TravelRefundRequest;
+import net.sourceforge.jeval.Evaluator;
 
 public class ClientAppGateway {
 
@@ -23,7 +24,7 @@ public class ClientAppGateway {
 
     public void sendTravelFundReply(TravelRefundReply travelRefundReply, String corelation) {
         String request = seriealizer.replyToString(travelRefundReply);
-        sender.sendMessage(request,corelation);
+        sender.sendMessage(request, corelation);
     }
 
     public void onLoanReplyArrived() {
