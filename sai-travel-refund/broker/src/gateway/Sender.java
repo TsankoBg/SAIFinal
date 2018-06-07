@@ -48,10 +48,11 @@ public class Sender {
 
 
 
-    public void sendMessage(String body,String correlationID) {
+    public void sendMessage(String body,String correlationID, String aggregationID) {
         try {
             TextMessage message = session.createTextMessage();
             message.setText(body);
+          //  message.setStringProperty("aggregationID",aggregationID);
             message.setJMSCorrelationID(correlationID);
             producer.send(queue, message);
         } catch (JMSException e) {

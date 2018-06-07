@@ -52,7 +52,12 @@ public class ClientController implements Initializable {
         );
         cbTravelMode.getSelectionModel().select(0);
         jcbModeItemStateChanged();
-        brokerAppGateway=new BrokerAppGateway();
+        brokerAppGateway= new BrokerAppGateway() {
+            @Override
+            public void onLoanReplyArrived(TravelRefundReply travelRefundReply) {
+                System.out.println("arrived");
+            }
+        };
     }
 
     private ClientListLine getRequestReply(TravelRefundRequest request) {

@@ -9,13 +9,16 @@ import model.TravelRefundReply;
 import model.TravelRefundRequest;
 import net.sourceforge.jeval.Evaluator;
 
-public class ClientAppGateway {
+import javax.jms.JMSException;
+import java.util.HashMap;
+
+public abstract class ClientAppGateway {
 
     private Receiver receiver;
     private Sender sender;
     private TravelRefundSerializer seriealizer;
     private CostCalculator costCalculator;
-
+    HashMap<String,TravelRefundRequest> travelCorrelIDs;
     public ClientAppGateway() {
         sender = new Sender("brokerToClient1");
         receiver = new Receiver("clientToBroker1");
@@ -24,7 +27,7 @@ public class ClientAppGateway {
 
     public void sendTravelFundReply(TravelRefundReply travelRefundReply, String corelation) {
         String request = seriealizer.replyToString(travelRefundReply);
-        sender.sendMessage(request, corelation);
+        sender.sendMessage(request, corelation, "");
     }
 
     public void onLoanReplyArrived() {
@@ -36,7 +39,14 @@ public class ClientAppGateway {
                 double newCosts = costCalculator.calculateCosts(travelRefundRequest.getOrigin().getCity(), travelRefundRequest.getDestination().getCity());
                 travelRefundRequest.setCosts(newCosts);
             }
-
+            try {
+                travelCorrelIDs.put(message.getJMSMessageID(),travelRefundRequest);
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+            onLoanReplyArrived(travelRefundRequest);
         });
     }
+
+    public abstract  void onLoanReplyArrived(TravelRefundRequest travelRefundRequest);
 }
