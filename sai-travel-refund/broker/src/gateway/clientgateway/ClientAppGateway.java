@@ -50,7 +50,7 @@ public abstract class ClientAppGateway {
                 double newCosts = costCalculator.calculateCosts(travelRefundRequest.getOrigin().getCity(), travelRefundRequest.getDestination().getCity());
                 travelRefundRequest.setCosts(newCosts);
             }
-            onLoanReplyArrived(travelRefundRequest, message.getJMSMessageID());
+            onLoanReplyArrived(travelRefundRequest, message.getJMSCorrelationID());
         } catch (JMSException e) {
             e.printStackTrace();
         }

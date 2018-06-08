@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import model.ApprovalReply;
 import model.ApprovalRequest;
+import model.TravelRefundReply;
 import model.TravelRefundRequest;
 
 
@@ -54,6 +55,8 @@ public class BrokerController implements Initializable {
                 Platform.runLater(() -> {
                     lvRequestReply.refresh();
                 });
+                TravelRefundReply travelRefundReply=new TravelRefundReply(approvalReply.isApproved(),approvalReply.getReasonRejected(),request.getCosts());
+                clientAppGateway.sendTravelFundReply(travelRefundReply,messageCorelation);
             }
         };
 

@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
@@ -54,8 +55,19 @@ public class ClientController implements Initializable {
         jcbModeItemStateChanged();
         brokerAppGateway= new BrokerAppGateway() {
             @Override
-            public void onLoanReplyArrived(TravelRefundReply travelRefundReply) {
-                System.out.println("arrived");
+            public void onBrokerReplyArrived(TravelRefundReply travelRefundReply,String corelationID) {
+                TravelRefundRequest request=null;
+                for (Map.Entry m : travelRequestIDmap.entrySet()) {
+                    if (m.getKey().equals(corelationID)) {
+                        try {
+                           request=(TravelRefundRequest) m.getValue();
+                        } catch (Exception ex) {
+                        }
+                        break;
+                    }
+                }
+               getRequestReply(request).setReply(travelRefundReply);
+                lvRequestReply.refresh();
             }
         };
     }

@@ -43,11 +43,13 @@ public class Sender {
     }
 
 
-    public void sendMessage(String body)
+    public void sendMessage(String body, String colID)
     {
         try {
             TextMessage message = session.createTextMessage();
             message.setText(body);
+
+            message.setJMSCorrelationID(colID);
             producer.send(destination,message);
         } catch (JMSException e) {
             e.printStackTrace();
