@@ -110,16 +110,23 @@ public class ClientController implements Initializable {
         String student=tfStudent.getText();
 
         double travelCost=0;
-        if(cbTravelMode.getSelectionModel().getSelectedIndex()==1)
-        {
-            travelCost=Double.parseDouble(tfCosts.getText());
-        }
+
         Address orgAddress=new Address(orgStreet,orgNumber,orgCity);
         Address destAddress=new Address(desStreet,destNumber,destCity);
         TravelRefundRequest travelRefundRequest=new TravelRefundRequest(teacher,student,orgAddress, destAddress,travelCost);
+        if(cbTravelMode.getSelectionModel().getSelectedIndex()==1)
+        {
+           travelRefundRequest.setCosts(Double.parseDouble(tfCosts.getText()));
+            travelRefundRequest.setMode(ClientTravelMode.PUBLIC_TRANSPORT);
+        }
+        if(cbTravelMode.getSelectionModel().getSelectedIndex()==0) {
+            travelCost=0;
+            travelRefundRequest.setMode(ClientTravelMode.CAR);
+        }
         System.out.println(travelRefundRequest.getCosts());
         System.out.println(travelRefundRequest.getStudent());
         System.out.println(travelRefundRequest.getMode());
+
         brokerAppGateway.applyForRefund(travelRefundRequest);
         ClientListLine clientListLine=new ClientListLine(travelRefundRequest);
         lvRequestReply.getItems().add(clientListLine);

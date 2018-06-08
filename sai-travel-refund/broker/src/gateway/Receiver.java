@@ -29,7 +29,7 @@ public class Receiver {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             destination = (Destination) jndiContextC1.lookup(channelName);
             consumer = session.createConsumer(destination);
-
+            connection.start();
 
         } catch (NamingException e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class Receiver {
     public void setMessageListener(MessageListener ml) {
         try {
             consumer.setMessageListener(ml);
-            connection.start();
+
 
         } catch (JMSException e) {
             e.printStackTrace();

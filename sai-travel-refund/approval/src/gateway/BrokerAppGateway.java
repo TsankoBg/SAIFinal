@@ -3,20 +3,30 @@ package gateway;
 import approval.model.ApprovalReply;
 import approval.model.ApprovalRequest;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.TextMessage;
+import java.util.HashMap;
 
-public class BrokerAppGateway {
+public abstract class BrokerAppGateway {
 
     private Receiver receiver;
     private Sender sender;
     private ApprovalSerielizer seriealizer;
+  public   HashMap<String, ApprovalRequest> apprRequestMessage;
 
 
-    public BrokerAppGateway()
+    public BrokerAppGateway(String departmentName)
     {
-        receiver=new Receiver("brokerToBank1");
-        sender=new Sender("bankToBroker");
+        apprRequestMessage=new HashMap<>();
+        receiver=new Receiver(departmentName);
+        sender=new Sender("adminToBroker");
         seriealizer=new ApprovalSerielizer();
+        receiver.setMessageListener(message -> {
+            onApprovalReplyReceived(message);
+
+
+        });
     }
 
     public void sendReply(ApprovalReply approvalReply, String corelation) {
@@ -24,14 +34,17 @@ public class BrokerAppGateway {
         sender.sendMessage(request,corelation);
     }
 
-    public void onLoanReplyArrived( ) {
+    public void onApprovalReplyReceived(Message message ) {
 
-        receiver.setMessageListener(message -> {
-
-            ApprovalRequest approvalRequest =seriealizer.requestFromString(message.toString());
-
-        });
+        try {
+            ApprovalRequest approvalRequest=seriealizer.requestFromString(((TextMessage)message).getText());
+            apprRequestMessage.put(message.getJMSCorrelationID(),approvalRequest);
+            onApprovalReplyReceived(approvalRequest);
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
 
 
     }
+    public abstract void onApprovalReplyReceived(ApprovalRequest approvalRequest);
 }

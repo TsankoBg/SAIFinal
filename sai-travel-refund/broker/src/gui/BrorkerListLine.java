@@ -1,33 +1,35 @@
 package gui;
 
+import model.ApprovalReply;
+import model.ApprovalRequest;
 import model.TravelRefundReply;
 import model.TravelRefundRequest;
 
 public class BrorkerListLine {
-    private TravelRefundRequest request;
-    private TravelRefundReply reply;
+    private ApprovalRequest request;
+    private ApprovalReply reply;
 
-    public BrorkerListLine(TravelRefundRequest request, TravelRefundReply reply) {
+    public BrorkerListLine(ApprovalRequest request, ApprovalReply reply) {
         this.request = request;
         this.reply = reply;
     }
-    public BrorkerListLine(TravelRefundRequest request) {
+    public BrorkerListLine(ApprovalRequest request) {
         this.request = request;
         // this.reply = reply;
     }
-    public TravelRefundRequest getRequest() {
+    public ApprovalRequest getRequest() {
         return request;
     }
 
-    private void setRequest(TravelRefundRequest request) {
+    private void setRequest(ApprovalRequest request) {
         this.request = request;
     }
 
-    public TravelRefundReply getReply() {
+    public ApprovalReply getReply() {
         return reply;
     }
 
-    public void setReply(TravelRefundReply reply) {
+    public void setReply(ApprovalReply reply) {
         this.reply = reply;
     }
 

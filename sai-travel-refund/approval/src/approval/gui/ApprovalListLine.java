@@ -12,8 +12,11 @@ class ApprovalListLine {
 	public ApprovalListLine(ApprovalRequest request,  ApprovalReply reply) {
 		setRequest(request);
 		setReply(reply);
-	}	
-	
+	}
+	public ApprovalListLine(ApprovalRequest request) {
+		setRequest(request);
+
+	}
 	public ApprovalRequest getRequest() {
 		return request;
 	}
