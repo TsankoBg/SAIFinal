@@ -15,6 +15,7 @@ import model.TravelRefundRequest;
 
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -37,10 +38,28 @@ public class BrokerController implements Initializable {
         return null;
     }
 
+    private int getAggregatorCount(HashMap<String, String> map, HashMap<String, String> financeMap, String agID) {
+        int counter1 = 0;
+        for (Map.Entry m : map.entrySet()) {
+            if (m.getKey().equals(agID)) {
+                counter1++;
+                System.out.println(counter1);
+            }
+        }
+        for (Map.Entry m : financeMap.entrySet()) {
+            if (m.getKey().equals(agID)) {
+                counter1++;
+                System.out.println(counter1);
+            }
+        }
+        return counter1;
+    }
+
     public BrokerController() {
+
         approvalClientGateway = new ApprovalClientGateway() {
             @Override
-            public void onApprovalReply(ApprovalReply approvalReply, String messageCorelation) {
+            public void onApprovalReply(ApprovalReply approvalReply, String messageCorelation, String agID) {
                 ApprovalRequest request = null;
                 for (Map.Entry m : appRequestCorelation.entrySet()) {
                     if (m.getKey().equals(messageCorelation)) {
@@ -55,8 +74,10 @@ public class BrokerController implements Initializable {
                 Platform.runLater(() -> {
                     lvRequestReply.refresh();
                 });
-                TravelRefundReply travelRefundReply=new TravelRefundReply(approvalReply.isApproved(),approvalReply.getReasonRejected(),request.getCosts());
-                clientAppGateway.sendTravelFundReply(travelRefundReply,messageCorelation);
+                if (getAggregatorCount(appAggrIDsFinance, appAggrIDsIntern, agID) == 0) {
+                    TravelRefundReply travelRefundReply = new TravelRefundReply(approvalReply.isApproved(), approvalReply.getReasonRejected(), request.getCosts());
+                    clientAppGateway.sendTravelFundReply(travelRefundReply, messageCorelation);
+                }
             }
         };
 

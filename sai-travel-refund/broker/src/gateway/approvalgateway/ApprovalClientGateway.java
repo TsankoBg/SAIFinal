@@ -14,10 +14,7 @@ import net.sourceforge.jeval.Evaluator;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class ApprovalClientGateway {
 
@@ -25,9 +22,10 @@ public abstract class ApprovalClientGateway {
     private Sender financeSender;
     private Sender internhipSender;
     public HashMap<String,ApprovalRequest> appRequestCorelation;
-    private List<Sender> senders;
+ //   private List<Sender> senders;
     List<String> aggregatorIDs;
-
+    public HashMap<String, String> appAggrIDsFinance;
+    public HashMap<String, String> appAggrIDsIntern;
     private ApprovalSerializer seriealizer;
     AIDProducer aidProducer;
     String FINANCIAL_DEPARMENT  = "#{amount} >= 50";
@@ -38,12 +36,13 @@ public abstract class ApprovalClientGateway {
     {
         //initialzing
         appRequestCorelation=new HashMap<>();
-        senders=new ArrayList<>();
+        appAggrIDsFinance=new HashMap<>();
+        appAggrIDsIntern=new HashMap<>();
+       // senders=new ArrayList<>();
         internhipSender = new Sender("Internship Administration");
        financeSender=new Sender("Financial Department");
        aggregatorIDs=new ArrayList<>();
-       senders.add(internhipSender);
-      senders.add(financeSender);
+
         aidProducer=new AIDProducer();
         seriealizer=new ApprovalSerializer();
         receiver = new Receiver("adminToBroker");
@@ -74,29 +73,49 @@ public abstract class ApprovalClientGateway {
             e.printStackTrace();
         }
         boolean finRule = result.equals("1.0");
-        System.out.println(aggregatorId);
+        System.out.println( "BROKER SENT AGGREGATION ID : "+ aggregatorId);
         if(finRule)
         {
            financeSender.sendMessage(approvalRequestString,messageID,aggregatorId);
+
+            appAggrIDsFinance.put(aggregatorId,"Finance");
         }
         internhipSender.sendMessage(approvalRequestString,messageID,aggregatorId);
+
         appRequestCorelation.put(messageID,approvalRequest);
+        appAggrIDsIntern.put(aggregatorId,"Intern");
 
     }
 
     public void onApprovalReply(Message message) {
 
 
-        ApprovalReply approvalReply = null;
+
         try {
-            approvalReply = seriealizer.replyFromString(((TextMessage)message).getText());
-            onApprovalReply(approvalReply, message.getJMSCorrelationID());
+         ApprovalReply   approvalReply = seriealizer.replyFromString(((TextMessage)message).getText());
+
+         String agregID=message.getStringProperty("aggregationID");
+       //  System.out.println(approvalReply.getReasonRejected());
+
+    if(message.getStringProperty("type").equals("Financial Department"))
+    {
+        appAggrIDsFinance.remove(agregID,"Finance");
+        System.out.println("Finance with id "+ agregID  + " was removed");
+
+    }
+    if(message.getStringProperty("type").equals("Internship Administration"))
+    {
+        appAggrIDsIntern.remove(agregID,"Intern");
+        System.out.println("intern with id "+ agregID  + " was removed");
+        }
+            onApprovalReply(approvalReply, message.getJMSCorrelationID(),agregID);
+           // appAggrIDs.remove(agregID);
         } catch (JMSException e) {
             e.printStackTrace();
         }
 
     }
-    public abstract void onApprovalReply(ApprovalReply approvalReply, String messageCorelation );
+    public abstract void onApprovalReply(ApprovalReply approvalReply, String messageCorelation, String agID );
 }
 
 

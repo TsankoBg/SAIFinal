@@ -35,12 +35,12 @@ public class ApprovalController implements Initializable {
     public ApprovalController(String approvalName) {
         this.approvalName = approvalName;
         System.out.println(approvalName);
-        brokerAppGateway =new BrokerAppGateway(approvalName) {
+        brokerAppGateway = new BrokerAppGateway(approvalName) {
             @Override
             public void onApprovalReplyReceived(ApprovalRequest approvalRequest) {
-                ApprovalListLine approvalListLine=new ApprovalListLine(approvalRequest);
+                ApprovalListLine approvalListLine = new ApprovalListLine(approvalRequest);
                 Platform.runLater(() -> {
-                lvRequestReply.getItems().add(approvalListLine);
+                    lvRequestReply.getItems().add(approvalListLine);
                 });
             }
         };
@@ -48,34 +48,47 @@ public class ApprovalController implements Initializable {
     }
 
     private void sendApprovalReply() {
-       // TO DO create and send ApprovalReply
-       boolean approvedRejected=false;
-        ApprovalReply approvalReply=null;
+        // TO DO create and send ApprovalReply
+        boolean approvedRejected = false;
+        ApprovalReply approvalReply = null;
+        String coreId = "";
+        String agId = "";
+        ApprovalRequest approvalRequest = null;
+        try {
+            approvalRequest = lvRequestReply.getSelectionModel().getSelectedItem().getRequest();
+        } catch (NullPointerException ex) {
+            //System.out.println("you havent selected an item");
+        }
+        if (approvalRequest != null) {
+            for (Map.Entry m : brokerAppGateway.apprRequestMessage.entrySet()) {
+                if (m.getValue() == approvalRequest) {
+                    coreId = m.getKey().toString();
+                    System.out.println(m.getKey());
+                    break;
+                }
+            }
 
-
-        String coreId="";
-        ApprovalRequest approvalRequest=lvRequestReply.getSelectionModel().getSelectedItem().getRequest();
-        for(Map.Entry m:brokerAppGateway.apprRequestMessage.entrySet()){
-           if(m.getValue()==approvalRequest)
-           {
-               coreId=m.getKey().toString();
-               System.out.println(m.getKey());
-               break;
-           }
+            for (Map.Entry m : brokerAppGateway.apprAggregIDs.entrySet()) {
+                if (m.getValue() == approvalRequest) {
+                    agId = m.getKey().toString();
+                    //  System.out.println(m.getKey());
+                    break;
+                }
+            }
+            if (rbApprove.isSelected()) {
+                approvedRejected = true;
+                approvalReply = new ApprovalReply(approvedRejected, "");
+            }
+            if (rbReject.isSelected()) {
+                approvedRejected = false;
+                approvalReply = new ApprovalReply(approvedRejected, approvalName);
+            }
+            lvRequestReply.getSelectionModel().getSelectedItem().setReply(approvalReply);
+            lvRequestReply.refresh();
+            brokerAppGateway.sendReply(approvalReply, coreId, agId, approvalName);
+        } else {
+            System.out.println("You havent selected an item");
         }
-        if(rbApprove.isSelected())
-        {
-            approvedRejected=true;
-            approvalReply=new ApprovalReply(approvedRejected,"" );
-        }
-        if(rbReject.isSelected())
-        {
-            approvedRejected=false;
-            approvalReply=new ApprovalReply(approvedRejected,approvalName);
-        }
-        lvRequestReply.getSelectionModel().getSelectedItem().setReply(approvalReply);
-        lvRequestReply.refresh();
-        brokerAppGateway.sendReply(approvalReply,coreId);
     }
 
     @Override

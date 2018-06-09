@@ -40,12 +40,14 @@ public class Sender {
         }
     }
 
-    public void sendMessage(String  body, String requestMessage) {
+    public void sendMessage(String  body, String corelId, String agregID,String type) {
         try {
             TextMessage message = session.createTextMessage();
            message.setText(body);
             message.setJMSReplyTo(destination);
-            message.setJMSCorrelationID(requestMessage);
+            message.setStringProperty("type",type);
+            message.setJMSCorrelationID(corelId);
+            message.setStringProperty("aggregationID",agregID);
             producer.send(message);
 
         } catch (JMSException e) {

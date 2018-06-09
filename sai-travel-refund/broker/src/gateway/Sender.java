@@ -47,7 +47,7 @@ public class Sender {
         try {
             TextMessage message = session.createTextMessage();
             message.setText(body);
-          //  message.setStringProperty("aggregationID",aggregationID);
+            message.setStringProperty("aggregationID",aggregationID);
             message.setJMSCorrelationID(correlationID);
             producer.send(destination, message);
         } catch (JMSException e) {

@@ -14,10 +14,11 @@ public abstract class BrokerAppGateway {
     private Sender sender;
     private ApprovalSerielizer seriealizer;
   public   HashMap<String, ApprovalRequest> apprRequestMessage;
-
+    public   HashMap<String, ApprovalRequest> apprAggregIDs;
 
     public BrokerAppGateway(String departmentName)
     {
+        apprAggregIDs=new HashMap<>();
         apprRequestMessage=new HashMap<>();
         receiver=new Receiver(departmentName);
         sender=new Sender("adminToBroker");
@@ -29,16 +30,19 @@ public abstract class BrokerAppGateway {
         });
     }
 
-    public void sendReply(ApprovalReply approvalReply, String corelation) {
+    public void sendReply(ApprovalReply approvalReply, String corelation, String agID, String type) {
         String request=seriealizer.replyToString(approvalReply);
-        sender.sendMessage(request,corelation);
+        sender.sendMessage(request,corelation,agID,type);
     }
 
     public void onApprovalReplyReceived(Message message ) {
 
         try {
             ApprovalRequest approvalRequest=seriealizer.requestFromString(((TextMessage)message).getText());
+            String agID= message.getStringProperty("aggregationID");
+           // System.out.println(agID);
             apprRequestMessage.put(message.getJMSCorrelationID(),approvalRequest);
+            apprAggregIDs.put(agID,approvalRequest);
             onApprovalReplyReceived(approvalRequest);
         } catch (JMSException e) {
             e.printStackTrace();
