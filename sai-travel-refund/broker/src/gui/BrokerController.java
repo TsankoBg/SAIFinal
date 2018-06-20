@@ -55,6 +55,27 @@ public class BrokerController implements Initializable {
         return counter1;
     }
 
+    private ApprovalReply getInternReply(HashMap<String,ApprovalReply> map, String corel)
+    {
+        for (Map.Entry m : map.entrySet()) {
+            if (m.getKey().equals(corel)) {
+
+              return (ApprovalReply) m.getValue();
+            }
+        }
+        return  null;
+    }
+    private ApprovalReply getFinance(HashMap<String,ApprovalReply> map, String corel)
+    {
+        for (Map.Entry m : map.entrySet()) {
+            if (m.getKey().equals(corel)) {
+
+                return (ApprovalReply) m.getValue();
+            }
+        }
+        return  null;
+    }
+
     public BrokerController() {
 
         approvalClientGateway = new ApprovalClientGateway() {
@@ -75,7 +96,34 @@ public class BrokerController implements Initializable {
                     lvRequestReply.refresh();
                 });
                 if (getAggregatorCount(appAggrIDsFinance, appAggrIDsIntern, agID) == 0) {
-                    TravelRefundReply travelRefundReply = new TravelRefundReply(approvalReply.isApproved(), approvalReply.getReasonRejected(), request.getCosts());
+                   ApprovalReply replyFromFinance= getFinance(financeReply,messageCorelation);
+                   ApprovalReply replyFromIntern=getInternReply(internReply,messageCorelation);
+                   TravelRefundReply travelRefundReply=null;
+                   if(replyFromFinance==null)
+                   {
+                       if(replyFromIntern.isApproved() )
+                       {
+                           travelRefundReply=new TravelRefundReply(true, "" ,request.getCosts());
+                       }
+                       else  if(!replyFromIntern.isApproved())
+                       {
+                           travelRefundReply=new TravelRefundReply(false, replyFromIntern.getReasonRejected() ,request.getCosts());
+                       }
+                   }
+                   else {
+                         if (replyFromFinance.isApproved() && replyFromIntern.isApproved()) {
+                           travelRefundReply = new TravelRefundReply(true, "", request.getCosts());
+                       } else if (replyFromFinance.isApproved() && replyFromIntern.isApproved()) {
+                           travelRefundReply = new TravelRefundReply(true, "", request.getCosts());
+                       } else if (!replyFromFinance.isApproved() && !replyFromIntern.isApproved()) {
+                           travelRefundReply = new TravelRefundReply(false, "Both", request.getCosts());
+                       } else if (!replyFromFinance.isApproved()) {
+                           travelRefundReply = new TravelRefundReply(false, replyFromFinance.getReasonRejected(), request.getCosts());
+                       } else if (!replyFromIntern.isApproved()) {
+                           travelRefundReply = new TravelRefundReply(false, replyFromIntern.getReasonRejected(), request.getCosts());
+                       }
+                   }
+                   // TravelRefundReply travelRefundReply = new TravelRefundReply(approvalReply.isApproved(), approvalReply.getReasonRejected(), request.getCosts());
                     clientAppGateway.sendTravelFundReply(travelRefundReply, messageCorelation);
                 }
             }

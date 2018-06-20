@@ -22,6 +22,9 @@ public abstract class ApprovalClientGateway {
     private Sender financeSender;
     private Sender internhipSender;
     public HashMap<String,ApprovalRequest> appRequestCorelation;
+    public HashMap<String,ApprovalReply> internReply;
+    public  HashMap<String, ApprovalReply> financeReply;
+
  //   private List<Sender> senders;
     List<String> aggregatorIDs;
     public HashMap<String, String> appAggrIDsFinance;
@@ -38,6 +41,8 @@ public abstract class ApprovalClientGateway {
         appRequestCorelation=new HashMap<>();
         appAggrIDsFinance=new HashMap<>();
         appAggrIDsIntern=new HashMap<>();
+        internReply=new HashMap<>();
+        financeReply=new HashMap<>();
        // senders=new ArrayList<>();
         internhipSender = new Sender("Internship Administration");
        financeSender=new Sender("Financial Department");
@@ -101,12 +106,14 @@ public abstract class ApprovalClientGateway {
     {
         appAggrIDsFinance.remove(agregID,"Finance");
         System.out.println("Finance with id "+ agregID  + " was removed");
+        financeReply.put(message.getJMSCorrelationID(),approvalReply);
 
     }
     if(message.getStringProperty("type").equals("Internship Administration"))
     {
         appAggrIDsIntern.remove(agregID,"Intern");
         System.out.println("intern with id "+ agregID  + " was removed");
+        internReply.put(message.getJMSCorrelationID(),approvalReply);
         }
             onApprovalReply(approvalReply, message.getJMSCorrelationID(),agregID);
            // appAggrIDs.remove(agregID);
